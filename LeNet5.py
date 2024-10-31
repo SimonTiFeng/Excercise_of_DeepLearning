@@ -111,26 +111,6 @@ evaluate_model(net, test_loader)
 
 loss_values = []
 
-for epoch in range(num_epochs):
-    net.train()
-    running_loss = 0.0
-
-    for images, labels in train_loader:
-        images = images.unsqueeze(1).to(device)
-        labels = labels.to(device)
-
-        optimizer.zero_grad()
-        outputs = net(images)
-        loss = criterion(outputs, labels)
-        loss.backward()
-        optimizer.step()
-
-        running_loss += loss.item()
-
-    epoch_loss = running_loss / len(train_loader)
-    loss_values.append(epoch_loss)
-    print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {epoch_loss:.4f}")
-
 plt.plot(range(1, num_epochs+1), loss_values, marker='o')
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
