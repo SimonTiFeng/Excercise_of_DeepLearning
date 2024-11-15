@@ -18,19 +18,21 @@ num_epochs = 10
 
 for epoch in range(num_epochs):
     model.train() 
-    for inputs, targets in iterator:
-        inputs, targets = inputs.to(torch.device('cuda')), targets.to(torch.device('cuda'))
+    
+    inputs, targets = next(iterator)
 
-        optimizer.zero_grad()  
+    inputs, targets = inputs.to(torch.device('cuda')), targets.to(torch.device('cuda'))
 
-        outputs = model(inputs) 
-        outputs = outputs.view(-1, vocab_size)  
-        targets = targets.view(-1)  
+    optimizer.zero_grad()  
 
-        loss = criterion(outputs, targets)  
+    outputs = model(inputs) 
+    outputs = outputs.view(-1, vocab_size)  
+    targets = targets.view(-1)  
 
-        loss.backward()  
-        optimizer.step()  
+    loss = criterion(outputs, targets)  
+
+    loss.backward()  
+    optimizer.step()  
 
     print(f'Epoch [{epoch + 1}/{num_epochs}], Loss: {loss.item():.4f}')
 
